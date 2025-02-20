@@ -6,12 +6,16 @@
         </encoder>
     </appender>
 
+    <!-- Set default logging level to INFO -->
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
     </root>
 
-    <!-- Set example classes to INFO -->
-    <logger name="ai.deepgram.sdk.examples" level="INFO" />
-    <logger name="ai.deepgram.sdk.pool.ConnectionPoolStreamingTest" level="INFO" />
-    <logger name="ai.deepgram.sdk" level="WARN" />
+    <!-- Enable DEBUG logging for our application -->
+    <logger name="ai.deepgram.sdk" level="DEBUG" />
+    <logger name="ai.deepgram.sdk.examples" level="DEBUG" />
+    
+    <!-- Hide raw WebSocket messages and audio debug logs -->
+    <logger name="ai.deepgram.sdk.websocket.DeepgramWebSocket" level="INFO" />
+    <logger name="ai.deepgram.sdk.examples.MicrophoneStreamingTest" level="INFO" />
 </configuration> 

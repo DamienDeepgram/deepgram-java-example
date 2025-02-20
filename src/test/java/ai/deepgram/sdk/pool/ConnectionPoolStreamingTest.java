@@ -1,6 +1,5 @@
 package ai.deepgram.sdk.pool;
 
-import ai.deepgram.sdk.message.TranscriptMessage;
 import ai.deepgram.sdk.websocket.AudioStreamOptions;
 import ai.deepgram.sdk.websocket.DeepgramWebSocket;
 import ai.deepgram.sdk.util.EnvConfig;
@@ -20,8 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ConnectionPoolStreamingTest {
     private static final Logger logger = LoggerFactory.getLogger(ConnectionPoolStreamingTest.class);

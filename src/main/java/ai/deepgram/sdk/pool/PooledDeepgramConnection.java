@@ -151,7 +151,7 @@ public class PooledDeepgramConnection {
 
     private void sendKeepAlive() {
         try {
-            webSocket.sendControlMessage(new ControlMessage(ControlMessage.ControlType.KEEPALIVE));
+            webSocket.sendControlMessage(ControlMessage.createKeepalive());
             metrics.recordKeepAliveSent();
         } catch (Exception e) {
             metrics.recordError(e);

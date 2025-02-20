@@ -14,13 +14,23 @@ public class ControlMessage implements DeepgramMessage {
      * Enumeration of possible control message types.
      */
     public enum ControlType {
-        START,
-        STOP,
-        ERROR,
-        KEEPALIVE
+        START("StartStream"),
+        STOP("CloseStream"),
+        ERROR("Error"),
+        KEEPALIVE("KeepAlive");
+
+        private final String value;
+
+        ControlType(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
-    private final ControlType controlType;
+    private final ControlType type;
     private final String message;
     private final Integer code;
     private final String details;
@@ -28,27 +38,27 @@ public class ControlMessage implements DeepgramMessage {
     /**
      * Creates a new control message with all parameters.
      *
-     * @param controlType the type of control message
+     * @param type the type of control message
      * @param message optional message text
      * @param code optional status code
      * @param details optional additional details
-     * @throws IllegalArgumentException if controlType is null or if message is required but null/empty
+     * @throws IllegalArgumentException if type is null or if message is required but null/empty
      */
     @JsonCreator
     public ControlMessage(
-        @JsonProperty("controlType") ControlType controlType,
+        @JsonProperty("type") ControlType type,
         @JsonProperty("message") String message,
         @JsonProperty("code") Integer code,
         @JsonProperty("details") String details
     ) {
-        if (controlType == null) {
-            throw new IllegalArgumentException("controlType cannot be null");
+        if (type == null) {
+            throw new IllegalArgumentException("type cannot be null");
         }
-        if (controlType == ControlType.ERROR && (message == null || message.trim().isEmpty())) {
+        if (type == ControlType.ERROR && (message == null || message.trim().isEmpty())) {
             throw new IllegalArgumentException("message is required for ERROR control type");
         }
 
-        this.controlType = controlType;
+        this.type = type;
         this.message = message;
         this.code = code;
         this.details = details;
@@ -57,11 +67,11 @@ public class ControlMessage implements DeepgramMessage {
     /**
      * Creates a new control message with only the control type.
      *
-     * @param controlType the type of control message
-     * @throws IllegalArgumentException if controlType is null
+     * @param type the type of control message
+     * @throws IllegalArgumentException if type is null
      */
-    public ControlMessage(ControlType controlType) {
-        this(controlType, null, null, null);
+    public ControlMessage(ControlType type) {
+        this(type, null, null, null);
     }
 
     /**
@@ -120,8 +130,18 @@ public class ControlMessage implements DeepgramMessage {
      *
      * @return the control type
      */
+    @Override
+    public MessageType getType() {
+        return MessageType.CONTROL;
+    }
+
+    /**
+     * Gets the control type.
+     *
+     * @return the control type
+     */
     public ControlType getControlType() {
-        return controlType;
+        return type;
     }
 
     /**
@@ -152,16 +172,11 @@ public class ControlMessage implements DeepgramMessage {
     }
 
     @Override
-    public MessageType getType() {
-        return MessageType.CONTROL;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ControlMessage that = (ControlMessage) o;
-        return controlType == that.controlType &&
+        return type == that.type &&
                Objects.equals(message, that.message) &&
                Objects.equals(code, that.code) &&
                Objects.equals(details, that.details);
@@ -169,13 +184,13 @@ public class ControlMessage implements DeepgramMessage {
 
     @Override
     public int hashCode() {
-        return Objects.hash(controlType, message, code, details);
+        return Objects.hash(type, message, code, details);
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("ControlMessage{controlType=")
-            .append(controlType);
+        StringBuilder sb = new StringBuilder("ControlMessage{type=")
+            .append(type);
         
         if (message != null) {
             sb.append(", message='").append(message).append('\'');

@@ -31,6 +31,7 @@ This implementation will create a Java-based real-time audio streaming client us
 - [x] Implement ControlMessage
   - [x] Add message types (START, STOP, ERROR)
   - [x] Add error handling
+  - [x] Add keep-alive support
 
 #### 2. WebSocket Client
 - [x] Implement DeepgramWebSocket class
@@ -39,6 +40,7 @@ This implementation will create a Java-based real-time audio streaming client us
   - [x] Add audio streaming
   - [x] Add error handling
   - [x] Add reconnection logic
+  - [x] Add keep-alive functionality
 
 #### 3. Connection Pooling
 - [x] Implement PoolConfig
@@ -54,6 +56,7 @@ This implementation will create a Java-based real-time audio streaming client us
   - [x] Add pooling logic
   - [x] Add timeout handling
   - [x] Add metrics collection
+  - [x] Add keep-alive support
 - [x] Implement PooledDeepgramConnection
   - [x] Add connection wrapper
   - [x] Add usage tracking
@@ -476,6 +479,11 @@ logger.info("Total timeout closures: {}", metrics.getTotalTimeoutClosures());
 - Improved error handling and logging across all examples
 - Standardized connection parameters and timeouts
 - Added performance metrics tracking to streaming examples
+- Added graceful shutdown handling in MicrophoneStreamingTest
+  - Sends CloseStream control message
+  - Waits for pending messages
+  - Properly closes WebSocket connection
+  - Gracefully shuts down scheduler
 
 ### Next Steps
 1. [x] Implement reconnection logic

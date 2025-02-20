@@ -88,45 +88,6 @@ public class AudioStreamingExample {
 }
 ```
 
-### 3. Stream from Microphone
-Stream audio from the system microphone in real-time:
-
-```java
-import javax.sound.sampled.*;
-
-public class MicrophoneStreamingExample {
-    public static void main(String[] args) {
-        AudioFormat format = new AudioFormat(16000, 16, 1, true, true);
-        DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-
-        DeepgramWebSocket client = new DeepgramWebSocket(
-            "wss://api.deepgram.com/v1/listen",
-            EnvConfig.getDeepgramApiKey()
-        );
-
-        AudioStreamOptions options = new AudioStreamOptions()
-            .setEncoding("linear16")
-            .setSampleRate(16000)
-            .setChannels(1);
-
-        client.connect().thenAccept(unused -> {
-            try (TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info)) {
-                line.open(format);
-                line.start();
-
-                byte[] buffer = new byte[4096];
-                while (true) {
-                    int count = line.read(buffer, 0, buffer.length);
-                    if (count > 0) {
-                        client.sendAudio(buffer);
-                    }
-                }
-            }
-        });
-    }
-}
-```
-
 ## Advanced Examples
 
 ### 1. Error Handling and Reconnection
@@ -311,4 +272,127 @@ client.setOnOpen(unused -> connectionLatch.countDown());
 if (!connectionLatch.await(5, TimeUnit.SECONDS)) {
     // Handle connection timeout
 }
-``` 
+```
+
+## Microphone Streaming Example
+
+The microphone streaming example demonstrates how to capture audio from your system's microphone and stream it to Deepgram for real-time transcription.
+
+### Features
+- Lists and allows selection of available audio input devices
+- Configures audio capture with optimal settings for Deepgram (16kHz, 16-bit PCM, mono)
+- Streams audio in real-time with minimal latency
+- Displays both interim and final transcription results
+- Implements graceful shutdown on Ctrl+C
+- Includes keep-alive mechanism for long-running sessions
+
+### Running the Example
+
+```bash
+mvn compile exec:java -P microphone
+```
+
+### Example Output
+```
+Available audio input devices:
+  1. default [default]
+  2. D6000 [plughw:0,0]
+  3. Headset [plughw:1,0]
+  4. Camera [plughw:2,0]
+  5. sofhdadsp [plughw:3,0]
+  6. sofhdadsp [plughw:3,7]
+
+Select device number (1-6): 5
+
+Audio device configuration:
+  Device: sofhdadsp [plughw:3,0]
+  Format: 16000.0 Hz, 16-bit PCM_SIGNED, 1 channel(s)
+  Frame size: 2 bytes
+  Frame rate: 16000.0 fps
+
+Deepgram configuration:
+  Model: nova-2
+  Language: en-US
+  Interim results: enabled
+
+Connecting to Deepgram...
+Connected to Deepgram
+Streaming from microphone. Press Ctrl+C to stop.
+
+    [Interim] can you hear
+  [Final] here
+  [Speech Final] okay
+    [Interim] hello
+  [Final] hello
+  [Speech Final] hello
+
+Shutting down...
+Shutdown complete
+```
+
+### Key Components
+
+1. **Audio Device Selection**
+   - Lists all available audio input devices
+   - Allows user to select preferred input device
+   - Verifies device supports required audio format
+
+2. **Audio Configuration**
+   - Sample Rate: 16kHz
+   - Bit Depth: 16-bit
+   - Channels: Mono
+   - Format: PCM signed little-endian
+   - Frame Size: 2 bytes
+   - Frame Rate: 16,000 fps
+
+3. **Deepgram Configuration**
+   - Model: nova-2 (latest conversational model)
+   - Language: en-US
+   - Interim Results: enabled for real-time feedback
+
+4. **Error Handling**
+   - Validates audio device compatibility
+   - Handles connection errors gracefully
+   - Implements proper resource cleanup
+   - Graceful shutdown on Ctrl+C
+
+5. **Performance Features**
+   - Efficient audio buffering
+   - Keep-alive mechanism for long sessions
+   - Non-blocking audio processing
+   - Resource cleanup on shutdown
+
+### Implementation Details
+
+The example uses Java Sound API (`javax.sound.sampled`) for audio capture and implements the following flow:
+
+1. **Device Discovery**
+   - Scans system for audio input devices
+   - Filters for devices supporting target data line
+   - Presents user with selection menu
+
+2. **Audio Capture**
+   - Opens selected device with optimal format
+   - Creates dedicated capture thread
+   - Implements efficient buffering
+
+3. **Streaming Process**
+   - Captures audio in chunks
+   - Sends data to Deepgram in real-time
+   - Processes transcription results
+   - Maintains connection with keep-alive
+
+4. **Shutdown Process**
+   - Captures Ctrl+C signal
+   - Sends stop control message
+   - Closes WebSocket connection
+   - Cleans up audio resources
+   - Shuts down scheduler
+
+### Best Practices Demonstrated
+- Proper resource management
+- Efficient error handling
+- Clean shutdown process
+- User-friendly interface
+- Real-time performance optimization
+- Clear logging and feedback 

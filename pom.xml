@@ -95,6 +95,12 @@
                 <exec.mainClass>ai.deepgram.sdk.examples.ConnectionPoolStreamingTest</exec.mainClass>
             </properties>
         </profile>
+        <profile>
+            <id>microphone</id>
+            <properties>
+                <exec.mainClass>ai.deepgram.sdk.examples.MicrophoneStreamingTest</exec.mainClass>
+            </properties>
+        </profile>
     </profiles>
 
     <build>

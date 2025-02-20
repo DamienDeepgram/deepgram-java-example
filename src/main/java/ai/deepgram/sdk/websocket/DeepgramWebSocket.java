@@ -15,6 +15,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.HashMap;
 
 /**
  * WebSocket client for connecting to Deepgram's real-time transcription API.
@@ -143,13 +144,16 @@ public class DeepgramWebSocket {
                         }
                         
                         try {
+                            logger.debug("Received message: {}", text);
                             TranscriptResponse response = objectMapper.readValue(text, TranscriptResponse.class);
                             TranscriptMessage message = response.toMessage();
                             if (onTranscript != null && message != null) {
                                 onTranscript.accept(message);
+                            } else {
+                                logger.debug("No transcript handler or empty message");
                             }
                         } catch (IOException e) {
-                            logger.error("Error parsing transcript response", e);
+                            logger.error("Error parsing transcript response: {}", e.getMessage());
                             if (onError != null) {
                                 onError.accept("Error parsing transcript response: " + e.getMessage());
                             }
@@ -233,7 +237,19 @@ public class DeepgramWebSocket {
             throw new IllegalStateException("Not connected to Deepgram WebSocket API");
         }
         try {
-            String json = objectMapper.writeValueAsString(message);
+            // Create a temporary map to convert enum to string value
+            Map<String, Object> jsonMap = new HashMap<>();
+            jsonMap.put("type", message.getControlType().getValue());
+            if (message.getMessage() != null) {
+                jsonMap.put("message", message.getMessage());
+            }
+            if (message.getCode() != null) {
+                jsonMap.put("code", message.getCode());
+            }
+            if (message.getDetails() != null) {
+                jsonMap.put("details", message.getDetails());
+            }
+            String json = objectMapper.writeValueAsString(jsonMap);
             webSocket.sendText(json);
         } catch (IOException e) {
             logger.error("Error sending control message", e);
@@ -241,6 +257,16 @@ public class DeepgramWebSocket {
                 onError.accept("Error sending control message: " + e.getMessage());
             }
         }
+    }
+
+    /**
+     * Sends a keep-alive message to maintain the WebSocket connection.
+     */
+    public void sendKeepAlive() {
+        if (!isConnected) {
+            throw new IllegalStateException("Not connected to Deepgram WebSocket API");
+        }
+        sendControlMessage(ControlMessage.createKeepalive());
     }
 
     public long getStartTime() {
