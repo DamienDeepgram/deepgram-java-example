@@ -61,7 +61,9 @@ public class SimpleConnectionTest {
             int bytesRead;
 
             while ((bytesRead = fis.read(buffer)) != -1) {
-                client.sendAudio(buffer);
+                byte[] audioChunk = bytesRead < buffer.length ? 
+                    java.util.Arrays.copyOf(buffer, bytesRead) : buffer;
+                client.sendAudio(audioChunk);
                 Thread.sleep(20); // Simulate real-time streaming
             }
 
