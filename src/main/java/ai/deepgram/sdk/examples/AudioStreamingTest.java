@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class AudioStreamingTest {
     private static final Logger logger = LoggerFactory.getLogger(AudioStreamingTest.class);
-    private static final String AUDIO_FILE = "bueller.wav";
+    private static final String AUDIO_FILE = "src/test/resources/bueller.wav";
     private static final int SAMPLE_RATE = 44100;  // Updated to match WAV file
     private static final int CHANNELS = 2;         // Updated to match WAV file
     private static final int BYTES_PER_SAMPLE = 2; // 16-bit audio
@@ -36,8 +36,16 @@ public class AudioStreamingTest {
             AtomicLong firstResultTime = new AtomicLong(0);
             AtomicLong firstTranscriptTime = new AtomicLong(0);
 
+            // Create audio stream options
+            AudioStreamOptions options = new AudioStreamOptions()
+                .setEncoding("linear16")
+                .setSampleRate(SAMPLE_RATE)
+                .setChannels(CHANNELS)
+                .setModel("nova-2")
+                .setInterimResults(true);
+
             DeepgramWebSocket client = new DeepgramWebSocket(
-                "wss://api.deepgram.com/v1/listen?encoding=linear16&sample_rate=44100&channels=2&model=nova-2",
+                "wss://api.deepgram.com/v1/listen",
                 apiKey
             );
 
@@ -97,6 +105,7 @@ public class AudioStreamingTest {
 
             logger.info("Connecting to Deepgram WebSocket API...");
             connectStartTime.set(System.currentTimeMillis());
+            client.setOptions(options);
             client.connect().thenAccept(unused -> {
                 logger.info("Connection established, starting audio stream...");
                 CompletableFuture.runAsync(() -> {

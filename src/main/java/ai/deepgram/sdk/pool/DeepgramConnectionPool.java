@@ -213,7 +213,17 @@ public class DeepgramConnectionPool implements AutoCloseable {
             if (options != null) {
                 connection.setOptions(options);
             }
+
+            // Set up basic error and close handlers
+            connection.setOnError(error -> {
+                logger.error("Connection error during initialization: {}", error);
+            });
+
+            connection.setOnClose(code -> {
+                logger.debug("Connection closed during initialization with code: {}", code);
+            });
             
+            // Connect with timeout
             connection.connect().get(config.getAcquireTimeout(), TimeUnit.MILLISECONDS);
 
             PooledDeepgramConnection pooledConnection = new PooledDeepgramConnection(

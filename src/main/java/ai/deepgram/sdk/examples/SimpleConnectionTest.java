@@ -1,5 +1,6 @@
 package ai.deepgram.sdk.examples;
 
+import ai.deepgram.sdk.websocket.AudioStreamOptions;
 import ai.deepgram.sdk.websocket.DeepgramWebSocket;
 import ai.deepgram.sdk.util.EnvConfig;
 import org.slf4j.Logger;
@@ -16,6 +17,15 @@ public class SimpleConnectionTest {
         try {
             String apiKey = EnvConfig.getDeepgramApiKey();
             CountDownLatch connectionLatch = new CountDownLatch(1);
+
+            // Create audio stream options
+            AudioStreamOptions options = new AudioStreamOptions()
+                .setEncoding("linear16")
+                .setSampleRate(16000)
+                .setChannels(1)
+                .setModel("nova-2")
+                .setInterimResults(true);
+
             DeepgramWebSocket client = new DeepgramWebSocket(
                 "wss://api.deepgram.com/v1/listen",
                 apiKey
@@ -36,6 +46,7 @@ public class SimpleConnectionTest {
             });
 
             logger.info("Connecting to Deepgram WebSocket API...");
+            client.setOptions(options);
             client.connect().thenAccept(unused -> {
                 try {
                     Thread.sleep(1000);

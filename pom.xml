@@ -92,7 +92,7 @@
         <profile>
             <id>pool</id>
             <properties>
-                <exec.mainClass>ai.deepgram.sdk.pool.ConnectionPoolStreamingTest</exec.mainClass>
+                <exec.mainClass>ai.deepgram.sdk.examples.ConnectionPoolStreamingTest</exec.mainClass>
             </properties>
         </profile>
     </profiles>

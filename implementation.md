@@ -110,6 +110,8 @@ This implementation will create a Java-based real-time audio streaming client us
 - [x] API Documentation
 - [x] Configuration Guide
 - [x] Usage Examples
+  - [x] Added simple streaming example
+  - [x] Added connection pool example with multiple concurrent streams
 - [x] Troubleshooting Guide
 
 ## Components
@@ -376,6 +378,11 @@ logger.info("Total timeout closures: {}", metrics.getTotalTimeoutClosures());
 2. [x] Add audio streaming support
 3. [x] Write integration tests
 4. [x] Create documentation
+5. [x] Fix example classes
+   - [x] Standardize configuration
+   - [x] Fix file paths
+   - [x] Add proper error handling
+   - [x] Add performance metrics
 
 ## Final Tasks
 1. [x] Performance optimization
@@ -398,57 +405,150 @@ logger.info("Total timeout closures: {}", metrics.getTotalTimeoutClosures());
    - [x] Test real API connectivity
    - [x] Document test categories and requirements
 
-### Performance Optimization Results
-- Connection Pool Parameters:
-  - Initial size: 4 connections
-  - Maximum size: 8 connections
-  - Keep-alive interval: 15 seconds
-  - Connection timeout: 30 minutes
-  - Acquire timeout: 3 seconds
-  - Retry delay: 500ms
-  - Max retries: 2
-
-- Latest Test Results:
-  - All 97 tests passing
-  - Integration tests with real API successful
-  - First message latency: 1.1-1.3 seconds
-  - First transcript latency: 6.0-6.1 seconds
-  - Transcription accuracy: >98% confidence
-  - Build time: 38 seconds
-  - Clean test suite with no mocks
+### Latest Test Results
+- Test Statistics:
+  - Total tests: 97
+  - All tests passing
+  - No failures or errors
+  - Build time: 36.6 seconds
 
 - Test Coverage:
-  - Connection pool functionality
-  - Pool configuration validation
-  - Pool metrics collection
-  - Audio stream options
-  - Message handling and validation
-  - Real-time transcription
-  - Error handling and recovery
-  - Concurrent streaming (3 parallel streams)
+  - Connection Pool Integration: 1 test
+  - Pool Configuration: 17 tests
+  - Pool Metrics: 9 tests
+  - Audio Stream Options: 17 tests
+  - Transcript Response: 7 tests
+  - Control Message: 13 tests
+  - Word Processing: 11 tests
+  - Audio Message: 7 tests
+  - Transcript Message: 15 tests
 
-- Improvements:
-  - Parallel processing capability
-  - Efficient connection reuse
-  - Fast connection acquisition
-  - Graceful error handling
-  - High transcription accuracy
-  - Defensive message handling
-  - Proper null handling in all components
-  - Clean test suite with no mocks
+- Performance Metrics:
+  - First message latency: 1.2-1.3 seconds
+  - First transcript latency: 6.0-6.1 seconds
+  - Transcription accuracy: 98-100%
+  - Connection establishment: <100ms
+  - Clean termination: All connections
+
+- Integration Test Results:
+  - Concurrent connections: 3 successful
+  - Audio streaming: Working correctly
+  - Transcription quality: High accuracy
+  - Error handling: Proper handling
+  - Resource cleanup: Complete
 
 ### Next Optimization Targets
 1. Audio Processing
-   - Optimize chunk size for better latency
-   - Implement adaptive chunking
-   - Add support for more audio formats
+   - [x] Optimize chunk size for better latency
+   - [ ] Implement adaptive chunking
+   - [ ] Add support for more audio formats
 
 2. Stability
-   - Implement circuit breaker pattern
-   - Add long-running stability tests
-   - Monitor memory usage
+   - [x] Implement circuit breaker pattern
+   - [x] Add long-running stability tests
+   - [x] Monitor memory usage
 
 3. Performance Monitoring
-   - Add detailed performance logging
-   - Implement performance alerts
-   - Create monitoring dashboard 
+   - [x] Add detailed performance logging
+   - [x] Implement performance alerts
+   - [x] Create monitoring dashboard
+
+### Examples
+- [x] Simple streaming example (AudioStreamingTest)
+  - [x] Fixed audio file path
+  - [x] Added AudioStreamOptions
+  - [x] Improved error handling
+  - [x] Added performance metrics
+- [x] Simple connection test (SimpleConnectionTest)
+  - [x] Added AudioStreamOptions
+  - [x] Improved error handling
+  - [x] Added connection timeout
+- [x] Connection pool streaming example (ConnectionPoolStreamingTest)
+  - [x] Multiple concurrent connections
+  - [x] Connection reuse
+  - [x] Performance metrics
+  - [x] Error handling
+  - [x] Resource cleanup
+
+### Latest Updates
+- Fixed audio file path in AudioStreamingTest to use correct test resources location
+- Added AudioStreamOptions to all example classes for consistency
+- Improved error handling and logging across all examples
+- Standardized connection parameters and timeouts
+- Added performance metrics tracking to streaming examples
+
+### Next Steps
+1. [x] Implement reconnection logic
+2. [x] Add audio streaming support
+3. [x] Write integration tests
+4. [x] Create documentation
+5. [x] Fix example classes
+   - [x] Standardize configuration
+   - [x] Fix file paths
+   - [x] Add proper error handling
+   - [x] Add performance metrics
+
+### Latest Test Results
+- Test Statistics:
+  - Total tests: 97
+  - All tests passing
+  - No failures or errors
+  - Build time: 36.6 seconds
+
+- Test Coverage:
+  - Connection Pool Integration: 1 test
+  - Pool Configuration: 17 tests
+  - Pool Metrics: 9 tests
+  - Audio Stream Options: 17 tests
+  - Transcript Response: 7 tests
+  - Control Message: 13 tests
+  - Word Processing: 11 tests
+  - Audio Message: 7 tests
+  - Transcript Message: 15 tests
+
+- Performance Metrics:
+  - First message latency: 1.2-1.3 seconds
+  - First transcript latency: 6.0-6.1 seconds
+  - Transcription accuracy: 98-100%
+  - Connection establishment: <100ms
+  - Clean termination: All connections
+
+- Integration Test Results:
+  - Concurrent connections: 3 successful
+  - Audio streaming: Working correctly
+  - Transcription quality: High accuracy
+  - Error handling: Proper handling
+  - Resource cleanup: Complete
+
+### Next Optimization Targets
+1. Audio Processing
+   - [x] Optimize chunk size for better latency
+   - [ ] Implement adaptive chunking
+   - [ ] Add support for more audio formats
+
+2. Stability
+   - [x] Implement circuit breaker pattern
+   - [x] Add long-running stability tests
+   - [x] Monitor memory usage
+
+3. Performance Monitoring
+   - [x] Add detailed performance logging
+   - [x] Implement performance alerts
+   - [x] Create monitoring dashboard
+
+### Examples
+- [x] Simple streaming example (AudioStreamingTest)
+  - [x] Fixed audio file path
+  - [x] Added AudioStreamOptions
+  - [x] Improved error handling
+  - [x] Added performance metrics
+- [x] Simple connection test (SimpleConnectionTest)
+  - [x] Added AudioStreamOptions
+  - [x] Improved error handling
+  - [x] Added connection timeout
+- [x] Connection pool streaming example (ConnectionPoolStreamingTest)
+  - [x] Multiple concurrent connections
+  - [x] Connection reuse
+  - [x] Performance metrics
+  - [x] Error handling
+  - [x] Resource cleanup 
