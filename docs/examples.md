@@ -204,6 +204,88 @@ client.setOnTranscript(transcript -> {
 });
 ```
 
+### 4. Connection Pool Usage
+Manage multiple concurrent connections using the connection pool:
+
+```java
+import ai.deepgram.sdk.pool.*;
+
+public class ConnectionPoolExample {
+    public static void main(String[] args) {
+        // Configure pool settings
+        PoolConfig config = new PoolConfig()
+            .setInitialSize(3)          // Start with 3 connections
+            .setMaxSize(5)              // Allow up to 5 connections
+            .setKeepAliveInterval(30000) // Keep-alive every 30s
+            .setConnectionTimeout(60000) // Close idle connections after 60s
+            .setAcquireTimeout(5000);    // Wait up to 5s for connection
+
+        // Configure audio options
+        AudioStreamOptions options = new AudioStreamOptions()
+            .setEncoding("linear16")
+            .setSampleRate(16000)
+            .setChannels(1)
+            .setModel("nova-2");
+
+        // Create connection pool
+        try (DeepgramConnectionPool pool = new DeepgramConnectionPool(
+                "wss://api.deepgram.com/v1/listen",
+                EnvConfig.getDeepgramApiKey(),
+                config,
+                options)) {
+
+            // Acquire and use connections
+            for (int i = 0; i < 3; i++) {
+                int streamId = i;
+                CompletableFuture.runAsync(() -> {
+                    try {
+                        // Get connection from pool
+                        PooledDeepgramConnection conn = pool.acquire();
+                        try {
+                            DeepgramWebSocket client = conn.getConnection();
+                            
+                            // Set up handlers
+                            client.setOnTranscript(transcript -> {
+                                System.out.printf("Stream %d: %s%n", 
+                                    streamId, transcript.getTranscript());
+                            });
+
+                            // Stream audio
+                            streamAudioFile(client, "audio.wav");
+                        } finally {
+                            // Return connection to pool
+                            pool.release(conn);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+
+            // Wait for streams to complete
+            Thread.sleep(30000);
+        }
+    }
+}
+```
+
+Key features of the connection pool:
+- Manages a pool of reusable WebSocket connections
+- Automatically handles connection lifecycle
+- Provides connection health monitoring
+- Collects performance metrics
+- Implements automatic cleanup of idle connections
+- Supports concurrent streaming with multiple connections
+
+Monitor pool metrics:
+```java
+PoolMetrics metrics = pool.getMetrics();
+System.out.printf("Active connections: %d%n", metrics.getActiveConnections());
+System.out.printf("Idle connections: %d%n", metrics.getIdleConnections());
+System.out.printf("Average acquisition time: %d ms%n", 
+    metrics.getAverageAcquisitionTime());
+```
+
 ## Best Practices
 
 1. Always clean up resources:
