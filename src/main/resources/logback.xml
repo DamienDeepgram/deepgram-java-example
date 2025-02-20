@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <!-- Set example classes to INFO -->
+    <logger name="ai.deepgram.sdk.examples" level="INFO" />
+    <logger name="ai.deepgram.sdk.pool.ConnectionPoolStreamingTest" level="INFO" />
+    <logger name="ai.deepgram.sdk" level="WARN" />
+</configuration> 
