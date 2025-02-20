@@ -1,7 +1,46 @@
 # Deepgram Java SDK Documentation
 
+## Contents
+
+1. [Getting Started](getting-started.md)
+   - Installation
+   - Basic setup
+   - Quick start guide
+
+2. [Configuration](configuration.md)
+   - Audio stream options
+   - Connection pool settings
+   - Environment variables
+
+3. [Examples](examples.md)
+   - Basic audio streaming
+   - Connection pool usage
+   - Error handling
+
+4. [Testing](testing.md)
+   - Integration tests
+   - Connection pool testing
+   - Performance metrics
+   - Test requirements
+
+5. [Troubleshooting](troubleshooting.md)
+   - Common issues
+   - Debug logging
+   - Error handling
+
 ## Overview
-The Deepgram Java SDK provides a simple and efficient way to integrate real-time audio transcription into your Java applications using Deepgram's WebSocket API. This SDK supports streaming audio in real-time and receiving transcription results with high accuracy.
+
+The Deepgram Java SDK provides a robust interface for real-time audio transcription using Deepgram's WebSocket API. This documentation covers all aspects of using and contributing to the SDK.
+
+## Quick Links
+
+- [API Documentation](https://console.deepgram.com/docs)
+- [SDK Source Code](https://github.com/yourusername/deepgram-java-sdk)
+- [Issue Tracker](https://github.com/yourusername/deepgram-java-sdk/issues)
+
+## Contributing
+
+See our [Contributing Guide](../CONTRIBUTING.md) for details on how to contribute to this project.
 
 ## Table of Contents
 1. [Getting Started](getting-started.md)

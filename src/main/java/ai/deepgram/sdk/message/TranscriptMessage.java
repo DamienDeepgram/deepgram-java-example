@@ -60,7 +60,7 @@ public class TranscriptMessage {
         this.channel = channel;
         this.start = start;
         this.duration = duration;
-        this.words = words;
+        this.words = words != null ? Arrays.copyOf(words, words.length) : new Word[0];
         this.isFinal = isFinal;
     }
 

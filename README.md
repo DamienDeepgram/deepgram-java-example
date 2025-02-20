@@ -10,6 +10,7 @@ A Java SDK for real-time audio transcription using Deepgram's WebSocket API.
 - Automatic reconnection handling
 - Comprehensive error handling
 - Event-based architecture
+- Connection pooling for multiple streams
 
 ## Requirements
 
@@ -63,42 +64,105 @@ client.onError(error -> {
 client.connect(options);
 ```
 
-## Running Tests
+## Development Setup
 
-### Unit Tests
-Run all unit tests with:
+1. Clone the repository:
 ```bash
-mvn test
+git clone https://github.com/DamienDeepgram/deepgram-java-example
+cd deepgram-java-example
 ```
 
-### Example Tests
-We have several example tests that demonstrate different features:
+2. Copy the environment file:
+```bash
+cp .env.example .env
+```
+
+3. Add your Deepgram API key to `.env`
+
+4. Build the project:
+```bash
+# Using Maven wrapper (recommended)
+./mvnw clean install
+
+# Or using system Maven
+mvn clean install
+```
+
+## Running Tests
+
+### Integration Tests
+We use integration tests with the real Deepgram API to ensure the SDK works correctly in production scenarios. These tests require a valid Deepgram API key:
 
 1. Audio Streaming Test (single connection):
 ```bash
 mvn compile exec:java -P stream
 ```
 
-2. Simple Connection Test (basic connectivity):
-```bash
-mvn compile exec:java -P simple
-```
-
-3. Connection Pool Test (multiple streams):
+2. Connection Pool Test (multiple concurrent streams):
 ```bash
 mvn compile exec:java -P pool
 ```
 
-Each test will output detailed logs including:
-- Connection time
-- First Results message latency
+The tests will output detailed metrics including:
+- Connection establishment time
+- First message latency
 - First transcript latency
-- Full transcription results
+- Transcription accuracy
+- Connection pool utilization
+
+For detailed information about our testing approach and results, see [Testing Guide](docs/testing.md).
+
+### Building Without Tests
+If you want to build the project without running tests:
+```bash
+mvn clean install -DskipTests
+```
+
+### Test Requirements
+- Valid Deepgram API key in `.env` file
+- Java 11 or higher
+- Maven 3.6 or higher
+- Internet connection for API access
 
 ## Building from Source
 
 1. Clone the repository
 2. Run `mvn clean install`
+
+## Troubleshooting
+
+### Common Issues
+
+1. Connection Errors
+   - Verify your API key is correct
+   - Check your internet connection
+   - Ensure you're not behind a restrictive firewall
+
+2. Audio Streaming Issues
+   - Verify your audio format matches the configuration
+   - Check that sample rate and encoding are set correctly
+   - Ensure audio file is accessible and not corrupted
+
+3. Build Issues
+   - Ensure Java 11+ is installed: `java -version`
+   - Verify Maven installation: `mvn -version`
+   - Try using the Maven wrapper: `./mvnw`
+
+### Debug Logging
+
+To enable debug logging, add the following to your `logback.xml`:
+
+```xml
+<logger name="ai.deepgram" level="DEBUG"/>
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
 ## Documentation
 
