@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.HashMap;
@@ -24,8 +23,6 @@ public class DeepgramWebSocket {
     private static final Logger logger = LoggerFactory.getLogger(DeepgramWebSocket.class);
     private static final int CONNECT_TIMEOUT_MS = 5000;
     private static final int PING_INTERVAL_MS = 30000;
-    private static final int RETRY_DELAY_MS = 1000;
-    private static final int MAX_RETRIES = 3;
 
     private String url;
     private final String apiKey;

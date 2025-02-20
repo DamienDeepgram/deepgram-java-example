@@ -1,6 +1,5 @@
 package ai.deepgram.sdk.examples;
 
-import ai.deepgram.sdk.message.TranscriptMessage;
 import ai.deepgram.sdk.websocket.AudioStreamOptions;
 import ai.deepgram.sdk.websocket.DeepgramWebSocket;
 import ai.deepgram.sdk.util.EnvConfig;

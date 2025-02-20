@@ -179,7 +179,6 @@ Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 ```java
 client.setOnTranscript(transcript -> {
     logger.debug("Received transcript: {}", transcript.getTranscript());
-    logger.debug("Confidence: {}", transcript.getConfidence());
     logger.debug("Is interim: {}", transcript.isInterim());
 });
 

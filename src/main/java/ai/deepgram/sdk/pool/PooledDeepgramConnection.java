@@ -1,12 +1,10 @@
 package ai.deepgram.sdk.pool;
 
 import ai.deepgram.sdk.message.ControlMessage;
-import ai.deepgram.sdk.websocket.AudioStreamOptions;
 import ai.deepgram.sdk.websocket.DeepgramWebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -172,5 +170,21 @@ public class PooledDeepgramConnection {
 
     public DeepgramWebSocket getConnection() {
         return webSocket;
+    }
+
+    /**
+     * Gets the executor service used by this connection.
+     * @return The scheduler executor service
+     */
+    public ScheduledExecutorService getExecutor() {
+        return executor;
+    }
+
+    /**
+     * Gets the keep-alive interval in milliseconds.
+     * @return The keep-alive interval
+     */
+    public int getKeepAliveInterval() {
+        return keepAliveInterval;
     }
 } 

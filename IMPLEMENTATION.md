@@ -64,6 +64,9 @@ Shutdown complete
   - All 97 unit tests passing
   - Consistent performance metrics across tests
   - Clean resource management and shutdown
+- Fixed Scanner resource leak in MicrophoneStreamingTest using try-with-resources
+- Added getter for executor service in PooledDeepgramConnection to resolve unused field warning
+- Added getter for keepAliveInterval in PooledDeepgramConnection to resolve unused field warning
 
 ### Implementation Status: COMPLETE
 All planned features have been implemented and tested successfully:

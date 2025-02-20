@@ -25,7 +25,6 @@ public class ConnectionPoolStreamingTest {
     private static final String AUDIO_FILE = "src/test/resources/bueller.wav";
     private static final int CHUNK_SIZE = 8820; // ~50ms of audio at 44.1kHz stereo
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final boolean DEBUG = false;  // Set to true to enable debug logging
     private static final int NUM_CONNECTIONS = 3;
     private static final int START_DELAY_MS = 1000; // 1 second delay between starts
     private static final int TOTAL_STREAMS_TO_PROCESS = 6; // Total number of streams to process
@@ -137,18 +136,17 @@ public class ConnectionPoolStreamingTest {
                         !response.getChannel().getAlternatives().isEmpty()) {
                         
                         String text = response.getChannel().getAlternatives().get(0).getTranscript();
-                        double confidence = response.getChannel().getAlternatives().get(0).getConfidence();
 
                         if (text != null && !text.trim().isEmpty()) {
                             if (response.isSpeechFinal() && response.isFinal()) {
-                                logger.info("[Conn {}][Speech Final] '{}' (confidence: {})",
-                                    connId, text, confidence);
+                                logger.info("[Conn {}][Speech Final] '{}'",
+                                    connId, text);
                             } else if (response.isFinal()) {
-                                logger.info("[Conn {}]  [Is Final] '{}' (confidence: {})",
-                                    connId, text, confidence);
+                                logger.info("[Conn {}]  [Is Final] '{}'",
+                                    connId, text);
                             } else {
-                                logger.info("[Conn {}]    [Interim Result] '{}' (confidence: {})",
-                                    connId, text, confidence);
+                                logger.info("[Conn {}]    [Interim Result] '{}'",
+                                    connId, text);
                             }
                         }
                     }

@@ -74,7 +74,6 @@ client.setOnOpen(unused -> {
 
 client.setOnTranscript(transcript -> {
     System.out.println("Transcript: " + transcript.getTranscript());
-    System.out.println("Confidence: " + transcript.getConfidence());
 });
 
 client.setOnError(error -> {

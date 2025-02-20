@@ -154,11 +154,10 @@ client.setOnTranscript(transcript -> {
         
         // Process word-level information
         for (TranscriptMessage.Word word : transcript.getWords()) {
-            System.out.printf("Word: %s (%.2f - %.2f) Confidence: %.2f%n",
+            System.out.printf("Word: %s (%.2f - %.2f)",
                 word.getWord(),
                 word.getStart(),
-                word.getEnd(),
-                word.getConfidence()
+                word.getEnd()
             );
         }
     }

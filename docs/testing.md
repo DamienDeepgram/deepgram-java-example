@@ -36,7 +36,6 @@ mvn test -Dtest=ConnectionPoolStreamingTest
 The test measures and reports:
 - First message latency (typically 1.1-1.3 seconds)
 - First transcript latency (typically 6.0-6.1 seconds)
-- Transcription accuracy (>98% confidence)
 - Connection pool utilization
 - Connection lifecycle events
 
@@ -101,5 +100,4 @@ Latest test metrics:
 - 97 tests passing
 - First message latency: 1.1-1.3 seconds
 - First transcript latency: 6.0-6.1 seconds
-- Transcription accuracy: >98% confidence
 - Build time: ~38 seconds 

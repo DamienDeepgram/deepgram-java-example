@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Queue;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A connection pool for managing multiple Deepgram WebSocket connections.

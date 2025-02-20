@@ -34,7 +34,6 @@ public class MicrophoneStreamingTest {
         try {
             String apiKey = EnvConfig.getDeepgramApiKey();
             CountDownLatch exitLatch = new CountDownLatch(1);
-            AtomicLong lastAudioTime = new AtomicLong(0);
             AtomicLong lastTranscriptTime = new AtomicLong(0);
 
             // List available audio input devices
@@ -59,8 +58,10 @@ public class MicrophoneStreamingTest {
             }
             logger.info("\nSelect device number (1-{}): ", mixerInfos.size());
 
-            Scanner scanner = new Scanner(System.in);
-            int selection = scanner.nextInt() - 1;
+            int selection;
+            try (Scanner scanner = new Scanner(System.in)) {
+                selection = scanner.nextInt() - 1;
+            }
             if (selection < 0 || selection >= mixerInfos.size()) {
                 throw new RuntimeException("Invalid device selection");
             }

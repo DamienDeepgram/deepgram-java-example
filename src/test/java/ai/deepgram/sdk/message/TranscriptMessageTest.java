@@ -3,8 +3,6 @@ package ai.deepgram.sdk.message;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import ai.deepgram.sdk.message.Word;
-
 public class TranscriptMessageTest {
     private static final String TEST_TRANSCRIPT = "test transcript";
     private static final double TEST_CONFIDENCE = 0.95;
